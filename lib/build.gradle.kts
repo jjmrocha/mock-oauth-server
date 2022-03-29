@@ -22,11 +22,11 @@ dependencies {
     // kotlin
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    //
+    // Http
+    implementation("org.eclipse.jetty:jetty-servlet:11.0.8")
     // testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.assertj:assertj-core:3.19.0")
-    testImplementation("io.mockk:mockk:1.10.6")
 }
 
 tasks.jar {
