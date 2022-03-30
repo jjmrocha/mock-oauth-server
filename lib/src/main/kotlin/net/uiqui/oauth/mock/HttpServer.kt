@@ -7,8 +7,7 @@ import org.eclipse.jetty.servlet.ServletHolder
 import java.net.InetSocketAddress
 
 class HttpServer(inetAddress: InetSocketAddress) {
-    private var servletHandler = ServletHandler().apply {
-    }
+    private var servletHandler = ServletHandler()
     private val server = Server(inetAddress).apply {
         handler = servletHandler
     }
@@ -25,8 +24,8 @@ class HttpServer(inetAddress: InetSocketAddress) {
         servletHandler.addServletWithMapping(ServletHolder(servlet), path)
     }
 
-    fun getPaths() = servletHandler.servletMappings.flatMap {
-        it.pathSpecs.asList()
+    fun getPaths() = servletHandler.servletMappings.flatMap { servletMapping ->
+        servletMapping.pathSpecs.asList()
     }
 
     fun isRunning() = server.isRunning

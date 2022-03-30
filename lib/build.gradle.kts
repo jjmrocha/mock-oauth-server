@@ -24,6 +24,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     // Http
     implementation("org.eclipse.jetty:jetty-servlet:11.0.8")
+    // JWT
+    implementation("com.nimbusds:nimbus-jose-jwt:9.21")
     // testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.assertj:assertj-core:3.19.0")
