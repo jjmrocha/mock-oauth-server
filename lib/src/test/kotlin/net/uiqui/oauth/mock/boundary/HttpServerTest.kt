@@ -1,13 +1,13 @@
-package net.uiqui.oauth.mock
+package net.uiqui.oauth.mock.boundary
 
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import net.uiqui.oauth.mock.HttpTestClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.net.HttpURLConnection
 import java.net.InetSocketAddress
-import java.net.URL
+import java.net.URI
 
 internal class HttpServerTest {
     @Test
@@ -18,7 +18,7 @@ internal class HttpServerTest {
         // when
         val result = classUnderTest.getHost()
         // then
-        assertThat(result).isEqualTo("http://localhost:8080/")
+        assertThat(result).isEqualTo("http://localhost:8080")
         classUnderTest.stop()
     }
 
@@ -30,7 +30,7 @@ internal class HttpServerTest {
         // when
         val result = classUnderTest.getHost()
         // then
-        assertThat(result).isNotEqualTo("http://localhost:0/")
+        assertThat(result).isNotEqualTo("http://localhost:0")
         classUnderTest.stop()
     }
 
@@ -77,11 +77,9 @@ internal class HttpServerTest {
             start()
         }
         // when
-        val http: HttpURLConnection = URL("http://localhost:8080/other/test404").openConnection() as HttpURLConnection
-        http.connect()
-        val result = http.responseCode
+        val result = HttpTestClient.get(URI("http://localhost:8080/other/test404"))
         // then
-        assertThat(result).isEqualTo(404)
+        assertThat(result.statusCode()).isEqualTo(404)
         classUnderTest.stop()
     }
 }

@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
@@ -26,6 +27,8 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-servlet:11.0.8")
     // JWT
     implementation("com.nimbusds:nimbus-jose-jwt:9.21")
+    // Json
+    implementation("com.google.code.gson:gson:2.9.0")
     // testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.assertj:assertj-core:3.19.0")
@@ -42,7 +45,7 @@ tasks.jar {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
