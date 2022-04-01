@@ -1,4 +1,4 @@
-package net.uiqui.oauth.mock
+package net.uiqui.oauth.mock.boundary
 
 import jakarta.servlet.http.HttpServlet
 import org.eclipse.jetty.server.Server
@@ -30,5 +30,5 @@ class HttpServer(inetAddress: InetSocketAddress) {
 
     fun isRunning() = server.isRunning
 
-    fun getHost() = server.uri!!.toString()
+    fun getHost() = server.uri!!.toString().trimEnd('/')
 }

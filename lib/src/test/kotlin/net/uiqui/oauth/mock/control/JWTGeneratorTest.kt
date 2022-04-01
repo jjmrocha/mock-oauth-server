@@ -1,7 +1,8 @@
-package net.uiqui.oauth.mock
+package net.uiqui.oauth.mock.control
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import java.net.URI
 
 internal class JWTGeneratorTest {
     @Test
@@ -15,7 +16,7 @@ internal class JWTGeneratorTest {
             "custom-list" to listOf("value1", "value2")
         )
         // when - encoded
-        val jwt = classUnderTest.generate(claims)
+        val jwt = classUnderTest.generate(URI("http://jwks/"), claims)
         // then
         assertThat(jwt).isInstanceOf(String::class.java)
         // when - decoded
