@@ -5,14 +5,30 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
-    `java-library`
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
+    }
 }
 
-group = "net.uiqui"
-version = "1.0.0"
+apply(plugin = "com.vanniktech.maven.publish")
+
+plugins {
+    // Structure
+    kotlin("jvm") version "1.5.31"
+    `java-library`
+    // Quality
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.8.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    // Publishing
+    id("org.jetbrains.dokka") version "1.6.10"
+}
+
+group = project.properties["GROUP"].toString()
+version = project.properties["VERSION_NAME"].toString()
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -20,9 +36,6 @@ repositories {
 }
 
 dependencies {
-    // kotlin
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     // Http
     implementation("org.eclipse.jetty:jetty-servlet:11.0.8")
     // JWT
@@ -31,7 +44,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     // testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.assertj:assertj-core:3.19.0")
+    testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
 tasks.jar {
