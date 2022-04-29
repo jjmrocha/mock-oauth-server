@@ -1,6 +1,6 @@
 package net.uiqui.oauth.mock
 
-import net.uiqui.oauth.mock.control.JsonHelper
+import net.uiqui.oauth.mock.tools.JsonHelper
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest

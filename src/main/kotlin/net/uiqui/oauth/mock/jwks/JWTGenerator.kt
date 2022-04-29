@@ -1,4 +1,4 @@
-package net.uiqui.oauth.mock.control
+package net.uiqui.oauth.mock.jwks
 
 import com.nimbusds.jose.JOSEException
 import com.nimbusds.jose.JOSEObjectType
@@ -10,8 +10,6 @@ import com.nimbusds.jose.jwk.KeyUse
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
-import net.uiqui.oauth.mock.entity.JWKS
-import net.uiqui.oauth.mock.entity.PublicKey
 import java.net.URI
 import java.util.Date
 import java.util.UUID

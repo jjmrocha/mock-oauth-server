@@ -36,10 +36,8 @@ repositories {
 }
 
 dependencies {
-    // Http
-    implementation("org.eclipse.jetty:jetty-servlet:11.0.8")
     // JWT
-    implementation("com.nimbusds:nimbus-jose-jwt:9.21")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.22")
     // Json
     implementation("com.google.code.gson:gson:2.9.0")
     // testing

@@ -1,4 +1,4 @@
-package net.uiqui.oauth.mock.control
+package net.uiqui.oauth.mock.tools
 
 import com.google.gson.Gson
 import kotlin.reflect.KClass

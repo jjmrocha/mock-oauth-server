@@ -1,4 +1,4 @@
-package net.uiqui.oauth.mock.entity
+package net.uiqui.oauth.mock.jwks
 
 data class PublicKey(
     val kty: String,
