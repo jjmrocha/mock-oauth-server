@@ -1,4 +1,4 @@
-package net.uiqui.oauth.mock.control
+package net.uiqui.oauth.mock.jwks
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -36,11 +36,12 @@ internal class JWTGeneratorTest {
         val result = classUnderTest.getJWKS()
         // then
         assertThat(result.keys).hasSize(1)
-        val jwk = result.keys.first()
-        assertThat(jwk.kty).isEqualTo("RSA")
-        assertThat(jwk.e).isEqualTo("AQAB")
-        assertThat(jwk.use).isEqualTo("sig")
-        assertThat(jwk.kid).matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
-        assertThat(jwk.n).isNotNull
+        result.keys.forEach { jwk ->
+            assertThat(jwk.kty).isEqualTo("RSA")
+            assertThat(jwk.e).isEqualTo("AQAB")
+            assertThat(jwk.use).isEqualTo("sig")
+            assertThat(jwk.kid).matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            assertThat(jwk.n).isNotNull
+        }
     }
 }

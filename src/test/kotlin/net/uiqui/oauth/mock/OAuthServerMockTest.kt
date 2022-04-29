@@ -2,34 +2,13 @@ package net.uiqui.oauth.mock
 
 import com.nimbusds.jose.JOSEObjectType
 import com.nimbusds.jose.JWSObject
-import net.uiqui.oauth.mock.entity.JWKS
+import net.uiqui.oauth.mock.jwks.JWKS
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.net.http.HttpResponse
 
 internal class OAuthServerMockTest {
-
-    @Test
-    fun `test constructor without parameters`() {
-        // given
-        val classUnderTest = OAuthServerMock()
-        // then
-        assertThat(classUnderTest.hostname).isEqualTo("localhost")
-        assertThat(classUnderTest.port).isEqualTo(0)
-    }
-
-    @Test
-    fun `test constructor with parameters`() {
-        // given
-        val classUnderTest = OAuthServerMock(
-            hostname = "127.0.0.1",
-            port = 8080,
-        )
-        // then
-        assertThat(classUnderTest.hostname).isEqualTo("127.0.0.1")
-        assertThat(classUnderTest.port).isEqualTo(8080)
-    }
-
     @Test
     fun `test generateJWT without starting mock server`() {
         // given
@@ -99,14 +78,7 @@ internal class OAuthServerMockTest {
         assertThat(response.statusCode()).isEqualTo(200)
         assertThat(response.contentType()).isEqualTo("application/json;charset=utf-8")
         // check jwks
-        val jwks = response.fromJson(JWKS::class)
-        assertThat(jwks.keys).hasSize(1)
-        val jwk = jwks.keys.first()
-        assertThat(jwk.kty).isEqualTo("RSA")
-        assertThat(jwk.e).isEqualTo("AQAB")
-        assertThat(jwk.use).isEqualTo("sig")
-        assertThat(jwk.kid).matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
-        assertThat(jwk.n).isNotNull
+        assertValidJWKS(response)
         // clean up
         classUnderTest.shutdown()
     }
@@ -126,15 +98,20 @@ internal class OAuthServerMockTest {
         assertThat(response.statusCode()).isEqualTo(200)
         assertThat(response.contentType()).isEqualTo("application/json;charset=utf-8")
         // check jwks
-        val jwks = response.fromJson(JWKS::class)
-        assertThat(jwks.keys).hasSize(1)
-        val jwk = jwks.keys.first()
-        assertThat(jwk.kty).isEqualTo("RSA")
-        assertThat(jwk.e).isEqualTo("AQAB")
-        assertThat(jwk.use).isEqualTo("sig")
-        assertThat(jwk.kid).matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
-        assertThat(jwk.n).isNotNull
+        assertValidJWKS(response)
         // clean up
         classUnderTest.shutdown()
+    }
+
+    private fun assertValidJWKS(response: HttpResponse<String>) {
+        val jwks = response.fromJson(JWKS::class)
+        assertThat(jwks.keys).hasSize(1)
+        jwks.keys.forEach { jwk ->
+            assertThat(jwk.kty).isEqualTo("RSA")
+            assertThat(jwk.e).isEqualTo("AQAB")
+            assertThat(jwk.use).isEqualTo("sig")
+            assertThat(jwk.kid).matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            assertThat(jwk.n).isNotNull
+        }
     }
 }

@@ -1,23 +1,21 @@
-package net.uiqui.oauth.mock.boundary
+package net.uiqui.oauth.mock.jwks
 
 import net.uiqui.oauth.mock.HttpTestClient
 import net.uiqui.oauth.mock.contentType
-import net.uiqui.oauth.mock.entity.JWKS
-import net.uiqui.oauth.mock.entity.PublicKey
 import net.uiqui.oauth.mock.fromJson
+import net.uiqui.oauth.mock.http.HttpServer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.net.InetSocketAddress
 import java.net.URI
 
-internal class KeysServletTest {
+internal class JWKSHandlerTest {
     private var http: HttpServer? = null
 
     @BeforeEach
     fun init() {
-        http = HttpServer(InetSocketAddress("localhost", 0)).apply {
+        http = HttpServer().apply {
             start()
         }
     }
@@ -28,7 +26,7 @@ internal class KeysServletTest {
     }
 
     @Test
-    fun `test keys servlet`() {
+    fun `test JWKS handler`() {
         // given
         val jwks = JWKS(
             keys = listOf(
@@ -41,8 +39,8 @@ internal class KeysServletTest {
                 )
             )
         )
-        val servlet = KeysServlet(jwks)
-        http!!.addServlet("/keys", servlet)
+        val handler = JWKSHandler(jwks)
+        http!!.addHandler("/keys", handler)
         // when
         val response = HttpTestClient.get(URI("${http!!.getHost()}/keys"))
         // then

@@ -1,0 +1,7 @@
+server:
+  port: 9090
+
+oauth:
+  jwks: "https://login.microsoftonline.com/common/discovery/keys"
+  issuer: "https://sts.windows.net/bd53852e-72de-40fc-899f-f60e9a9a81bf/"
+  audience: "5598494e-c37c-4072-8a0a-74bec8b6f32b"

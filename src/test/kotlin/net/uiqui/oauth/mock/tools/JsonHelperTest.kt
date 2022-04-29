@@ -1,7 +1,7 @@
-package net.uiqui.oauth.mock.control
+package net.uiqui.oauth.mock.tools
 
-import net.uiqui.oauth.mock.entity.JWKS
-import net.uiqui.oauth.mock.entity.PublicKey
+import net.uiqui.oauth.mock.jwks.JWKS
+import net.uiqui.oauth.mock.jwks.PublicKey
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

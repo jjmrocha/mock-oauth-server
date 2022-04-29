@@ -1,9 +1,8 @@
 package net.uiqui.oauth.mock
 
-import net.uiqui.oauth.mock.boundary.HttpServer
-import net.uiqui.oauth.mock.boundary.KeysServlet
-import net.uiqui.oauth.mock.control.JWTGenerator
-import java.net.InetSocketAddress
+import net.uiqui.oauth.mock.http.HttpServer
+import net.uiqui.oauth.mock.jwks.JWKSHandler
+import net.uiqui.oauth.mock.jwks.JWTGenerator
 import java.net.URI
 
 private const val JWKS_ENDPOINT = "/.well-known/jwks.json"
@@ -13,17 +12,12 @@ private const val JWKS_ENDPOINT = "/.well-known/jwks.json"
  *
  * This class mocks an oauth2 server, by generating valid signed JWTs.
  * The class also provides the endpoint from where the public keys can be downloaded.
- *
- * @param hostname the Host name, defaults to "localhost".
- * @param port the Host port number.
- * A port number of zero will let the system pick up an ephemeral port in a bind operation, defaults to 0.
  */
-class OAuthServerMock(
-    val hostname: String = "localhost",
-    val port: Int = 0,
-) {
+class OAuthServerMock {
     private val jwtGenerator = JWTGenerator()
-    private val httpServer = HttpServer(InetSocketAddress(hostname, port))
+    private val httpServer = HttpServer().apply {
+        addHandler(JWKS_ENDPOINT, JWKSHandler(jwtGenerator.getJWKS()))
+    }
 
     /**
      * Generate a signed JWT with the supplied claims.
@@ -52,10 +46,6 @@ class OAuthServerMock(
      * Starts the mocked oauth server.
      */
     fun start() {
-        if (JWKS_ENDPOINT !in httpServer.getPaths()) {
-            httpServer.addServlet(JWKS_ENDPOINT, KeysServlet(jwtGenerator.getJWKS()))
-        }
-
         httpServer.start()
     }
 
