@@ -1,11 +1,12 @@
 package net.uiqui.oauth.mock.example
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 
@@ -13,8 +14,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 class SecurityConfig(
     private val authentication: AuthenticationConfig,
-) : WebSecurityConfigurerAdapter() {
-    override fun configure(httpSecurity: HttpSecurity) {
+) {
+    @Bean
+    fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain? {
         // Disable sessions
         httpSecurity.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -31,5 +33,7 @@ class SecurityConfig(
         // Error handling
         httpSecurity.exceptionHandling()
             .authenticationEntryPoint(HttpStatusEntryPoint(UNAUTHORIZED))
+
+        return httpSecurity.build()
     }
 }

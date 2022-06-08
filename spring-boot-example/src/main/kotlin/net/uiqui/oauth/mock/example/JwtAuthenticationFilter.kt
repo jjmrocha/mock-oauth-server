@@ -16,6 +16,20 @@ import javax.servlet.http.HttpServletResponse
 class JwtAuthenticationFilter(
     private val authentication: AuthenticationConfig
 ) : OncePerRequestFilter() {
+    private val jwtConsumer = lazy {
+        JwtConsumerBuilder()
+            .setRequireExpirationTime()
+            .setExpectedIssuer(authentication.oauthIssuer)
+            .setExpectedAudience(authentication.oauthAudience)
+            .setVerificationKeyResolver(
+                HttpsJwksVerificationKeyResolver(
+                    HttpsJwks(authentication.jwksEndpoint)
+                )
+            )
+            .setJwsAlgorithmConstraints(AlgorithmConstraints.NO_CONSTRAINTS)
+            .build()
+    }
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -36,19 +50,7 @@ class JwtAuthenticationFilter(
     }
 
     private fun createJwtAuthenticationToken(jwtToken: String): Authentication {
-        val claims = JwtConsumerBuilder()
-            .setRequireExpirationTime()
-            .setExpectedIssuer(authentication.oauthIssuer)
-            .setExpectedAudience(authentication.oauthAudience)
-            .setVerificationKeyResolver(
-                HttpsJwksVerificationKeyResolver(
-                    HttpsJwks(authentication.jwksEndpoint)
-                )
-            )
-            .setJwsAlgorithmConstraints(AlgorithmConstraints.NO_CONSTRAINTS)
-            .build()
-            .processToClaims(jwtToken)
-
+        val claims = jwtConsumer.value.processToClaims(jwtToken)
         val appId = claims.getClaimValueAsString("appid")
 
         return object : AbstractAuthenticationToken(emptyList()) {

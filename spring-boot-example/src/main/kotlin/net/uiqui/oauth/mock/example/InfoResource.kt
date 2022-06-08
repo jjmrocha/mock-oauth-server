@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(
-    path = ["info"],
-    produces = [MediaType.APPLICATION_JSON_VALUE]
-)
+@RequestMapping("info", produces = [MediaType.APPLICATION_JSON_VALUE])
 class InfoResource {
     @GetMapping("/runtime")
     fun runtimeInfo(): ResponseEntity<Map<String, Any>> {
