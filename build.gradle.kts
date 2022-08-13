@@ -37,12 +37,12 @@ repositories {
 
 dependencies {
     // JWT
-    implementation("com.nimbusds:nimbus-jose-jwt:9.22")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.23")
     // Json
     implementation("com.google.code.gson:gson:2.9.0")
     // testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation("org.assertj:assertj-core:3.23.1")
 }
 
 tasks.jar {

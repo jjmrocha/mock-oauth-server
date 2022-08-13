@@ -40,7 +40,8 @@ private val mockedOauthServer = OAuthServerMock()
 
 2) Start the server
 ```kotlin
-@BeforeEach
+@BeforeAll
+@JvmStatic
 fun init() {
     mockedOauthServer.start()
 }
@@ -49,8 +50,7 @@ fun init() {
 3) Tell your app from where it can download the signing keys
 ```kotlin
 @BeforeEach
-fun init() {
-    mockedOauthServer.start()
+fun setUp() {
     every { mockedAuthenticationConfig.jwksEndpoint } returns mockedOauthServer.getJwksUri()
 }
 ```
@@ -75,7 +75,8 @@ mockMvc.perform(
 
 6) Shutdown the server
 ```kotlin
-@AfterEach
+@AfterAll
+@JvmStatic
 fun cleanUp() {
     mockedOauthServer.shutdown()
 }

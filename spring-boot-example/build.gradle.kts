@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.7.0"
+    id("org.springframework.boot") version "2.7.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
@@ -29,7 +29,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("com.ninja-squad:springmockk:3.1.1")
-    testImplementation("net.uiqui:mock-oauth-server:1.1.0")
+    testImplementation("net.uiqui:mock-oauth-server:1.1.1")
 }
 
 tasks.withType<KotlinCompile> {

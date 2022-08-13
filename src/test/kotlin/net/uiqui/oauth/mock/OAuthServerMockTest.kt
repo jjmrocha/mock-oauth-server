@@ -71,7 +71,9 @@ internal class OAuthServerMockTest {
     fun `test start`() {
         // given
         val classUnderTest = OAuthServerMock()
+        println("before start")
         classUnderTest.start()
+        println("after start")
         // when
         val response = HttpTestClient.get(classUnderTest.getJwksUri())
         // then
@@ -110,7 +112,7 @@ internal class OAuthServerMockTest {
             assertThat(jwk.kty).isEqualTo("RSA")
             assertThat(jwk.e).isEqualTo("AQAB")
             assertThat(jwk.use).isEqualTo("sig")
-            assertThat(jwk.kid).matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            assertThat(jwk.kid).matches("[a-f\\d]{8}-[a-f\\d]{4}-[a-f\\d]{4}-[a-f\\d]{4}-[a-f\\d]{12}")
             assertThat(jwk.n).isNotNull
         }
     }

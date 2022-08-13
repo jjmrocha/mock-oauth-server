@@ -38,7 +38,6 @@ class OAuthServerMock {
      * @exception IllegalStateException if called without starting the mocked oauth server
      */
     fun getJwksUri(): URI {
-        if (!httpServer.isRunning()) throw IllegalStateException("JWKS Uri is only available after starting")
         return URI("${httpServer.getHost()}$JWKS_ENDPOINT")
     }
 

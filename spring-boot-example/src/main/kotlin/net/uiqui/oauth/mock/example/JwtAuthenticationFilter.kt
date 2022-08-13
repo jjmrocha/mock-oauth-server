@@ -2,7 +2,6 @@ package net.uiqui.oauth.mock.example
 
 import org.jose4j.jwa.AlgorithmConstraints
 import org.jose4j.jwk.HttpsJwks
-import org.jose4j.jwt.consumer.InvalidJwtException
 import org.jose4j.jwt.consumer.JwtConsumerBuilder
 import org.jose4j.keys.resolvers.HttpsJwksVerificationKeyResolver
 import org.springframework.security.authentication.AbstractAuthenticationToken
@@ -42,7 +41,7 @@ class JwtAuthenticationFilter(
                 val authToken = createJwtAuthenticationToken(jwtToken)
                 SecurityContextHolder.getContext().authentication = authToken
             }
-        } catch (e: InvalidJwtException) {
+        } catch (e: Exception) {
             logger.error("Error parsing JWT: ${e.localizedMessage}")
         } finally {
             filterChain.doFilter(request, response)
