@@ -17,7 +17,7 @@ Quick Start
 
 Gradle
 ```kotlin
-testImplementation("net.uiqui:mock-oauth-server:1.1.0")
+testImplementation("net.uiqui:mock-oauth-server:1.1.1")
 ```
 
 Maven
