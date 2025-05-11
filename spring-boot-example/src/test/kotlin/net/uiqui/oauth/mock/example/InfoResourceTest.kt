@@ -4,8 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import net.uiqui.oauth.mock.OAuthServerMock
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,19 +25,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 internal class InfoResourceTest {
     companion object {
         val mockedAuthenticationConfig = mockk<AuthenticationConfig>()
-        val mockedOauthServer = OAuthServerMock()
-
-        @BeforeAll
-        @JvmStatic
-        fun init() {
-            mockedOauthServer.start()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun cleanUp() {
-            mockedOauthServer.shutdown()
-        }
     }
 
     @TestConfiguration
@@ -47,15 +33,23 @@ internal class InfoResourceTest {
         fun getAuthenticationConfig() = mockedAuthenticationConfig
     }
 
-    @Autowired
-    private lateinit var mockMvc: MockMvc
+    private val mockedOauthServer = OAuthServerMock()
 
     @BeforeEach
-    fun setUp() {
-        every { Companion.mockedAuthenticationConfig.jwksEndpoint } returns mockedOauthServer.getJwksUri().toString()
-        every { Companion.mockedAuthenticationConfig.oauthIssuer } returns "OAuth-Server-Mock"
-        every { Companion.mockedAuthenticationConfig.oauthAudience } returns "this-unit-test"
+    fun init() {
+        mockedOauthServer.start()
+        every { mockedAuthenticationConfig.jwksEndpoint } returns mockedOauthServer.getJwksUri().toString()
+        every { mockedAuthenticationConfig.oauthIssuer } returns "OAuth-Server-Mock"
+        every { mockedAuthenticationConfig.oauthAudience } returns "this-unit-test"
     }
+
+    @AfterEach
+    fun cleanUp() {
+        mockedOauthServer.shutdown()
+    }
+
+    @Autowired
+    private lateinit var mockMvc: MockMvc
 
     @Test
     fun `test runtimeInfo without access token`() {
