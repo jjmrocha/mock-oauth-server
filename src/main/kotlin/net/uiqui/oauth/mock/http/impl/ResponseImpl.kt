@@ -3,18 +3,24 @@ package net.uiqui.oauth.mock.http.impl
 import net.uiqui.oauth.mock.http.Response
 import java.io.OutputStream
 
-class ResponseImpl(private val version: String) : Response {
+internal class ResponseImpl(private val version: String) : Response {
     private var statusCode = 200
     private var statusMessage = "OK"
     private val headers = mutableMapOf<String, String>()
     private var body: String? = null
 
-    override fun setResponseCode(statusCode: Int, statusMessage: String) {
+    override fun setResponseCode(
+        statusCode: Int,
+        statusMessage: String,
+    ) {
         this.statusCode = statusCode
         this.statusMessage = statusMessage
     }
 
-    override fun addHeader(headerName: String, headerValue: String) {
+    override fun addHeader(
+        headerName: String,
+        headerValue: String,
+    ) {
         headers[headerName] = headerValue
     }
 

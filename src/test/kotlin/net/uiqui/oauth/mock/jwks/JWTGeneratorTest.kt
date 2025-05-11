@@ -9,12 +9,13 @@ internal class JWTGeneratorTest {
     fun `test jwt generation`() {
         // given
         val classUnderTest = JWTGenerator()
-        val claims = mapOf(
-            "aud" to "audience",
-            "iss" to "https://issuer/",
-            "custom-float" to 123.45,
-            "custom-list" to listOf("value1", "value2")
-        )
+        val claims =
+            mapOf(
+                "aud" to "audience",
+                "iss" to "https://issuer/",
+                "custom-float" to 123.45,
+                "custom-list" to listOf("value1", "value2"),
+            )
         // when - encoded
         val jwt = classUnderTest.generate(URI("http://jwks/"), claims)
         // then

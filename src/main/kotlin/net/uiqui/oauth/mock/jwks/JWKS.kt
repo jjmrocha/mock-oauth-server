@@ -1,5 +1,5 @@
 package net.uiqui.oauth.mock.jwks
 
-data class JWKS(
-    val keys: Collection<PublicKey>
+internal data class JWKS(
+    val keys: Collection<PublicKey>,
 )

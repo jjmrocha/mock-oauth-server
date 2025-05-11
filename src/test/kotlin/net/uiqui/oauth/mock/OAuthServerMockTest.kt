@@ -22,10 +22,11 @@ internal class OAuthServerMockTest {
     @Test
     fun `test generateJWT`() {
         // given
-        val claims = mapOf(
-            "aud" to "audience",
-            "iss" to "issuer",
-        )
+        val claims =
+            mapOf(
+                "aud" to "audience",
+                "iss" to "issuer",
+            )
         val classUnderTest = OAuthServerMock()
         // when
         classUnderTest.start()

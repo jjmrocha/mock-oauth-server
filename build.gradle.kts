@@ -3,46 +3,41 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
-    }
-}
-
-apply(plugin = "com.vanniktech.maven.publish")
 
 plugins {
     // Structure
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "2.1.20"
     `java-library`
     // Quality
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.8.0"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.17.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
     // Publishing
-    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.dokka") version "2.0.0"
+    id("com.vanniktech.maven.publish") version "0.31.0"
 }
 
 group = project.properties["GROUP"].toString()
 version = project.properties["VERSION_NAME"].toString()
-java.sourceCompatibility = JavaVersion.VERSION_11
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    // http
+    implementation("net.uiqui:embedhttp:0.5.3")
     // JWT
-    implementation("com.nimbusds:nimbus-jose-jwt:9.23")
+    implementation("com.nimbusds:nimbus-jose-jwt:10.3")
     // Json
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.13.1")
     // testing
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation(kotlin("test"))
+    testImplementation("org.assertj:assertj-core:3.27.3")
 }
 
 tasks.jar {
@@ -50,31 +45,28 @@ tasks.jar {
         attributes(
             mapOf(
                 "Implementation-Title" to project.name,
-                "Implementation-Version" to project.version
-            )
+                "Implementation-Version" to project.version,
+            ),
         )
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
-    }
-}
-
-tasks.withType<Test> {
+tasks.test {
     useJUnitPlatform()
     testLogging {
         events(
             FAILED,
             STANDARD_ERROR,
             SKIPPED,
-            PASSED
+            PASSED,
         )
         exceptionFormat = FULL
         showExceptions = true
         showCauses = true
         showStackTraces = true
     }
+}
+
+kotlin {
+    jvmToolchain(21)
 }

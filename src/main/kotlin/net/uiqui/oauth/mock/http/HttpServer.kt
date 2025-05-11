@@ -8,7 +8,7 @@ import java.net.Socket
 import java.net.SocketException
 import java.util.concurrent.CountDownLatch
 
-class HttpServer {
+internal class HttpServer {
     private val handlers = mutableMapOf<String, RequestHandler>()
     private val serverInstance = ServerInstance()
 
@@ -20,7 +20,10 @@ class HttpServer {
         serverInstance.stop()
     }
 
-    fun addHandler(path: String, handler: RequestHandler) {
+    fun addHandler(
+        path: String,
+        handler: RequestHandler,
+    ) {
         handlers[path] = handler
     }
 
@@ -105,6 +108,5 @@ private class ServerInstance {
 
     fun isRunning() = running.value
 
-    fun getPort() =
-        if (running.value) socket!!.localPort else throw IllegalStateException("host port is only available after starting")
+    fun getPort() = if (running.value) socket!!.localPort else throw IllegalStateException("host port is only available after starting")
 }

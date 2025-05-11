@@ -8,13 +8,14 @@ internal class RequestImplTest {
     @Test
     fun `parse post`() {
         // given
-        val httpRequest = """
+        val httpRequest =
+            """
         |POST /api/resource HTTP/1.1
         |Content-Type: application/json
         |Content-Length: 19
         |
         |{ "key" : "value" }
-        """.trimMargin()
+            """.trimMargin()
         // when
         val result = RequestImpl.parse((ByteArrayInputStream(httpRequest.toByteArray())))
         // then
@@ -30,9 +31,10 @@ internal class RequestImplTest {
     @Test
     fun `parse get`() {
         // given
-        val httpRequest = """
+        val httpRequest =
+            """
         |GET /api/resource?key1=value1&key2=value2 HTTP/1.1
-        """.trimMargin()
+            """.trimMargin()
         // when
         val result = RequestImpl.parse((ByteArrayInputStream(httpRequest.toByteArray())))
         // then

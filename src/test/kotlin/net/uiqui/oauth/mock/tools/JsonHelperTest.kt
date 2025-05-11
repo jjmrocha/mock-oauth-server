@@ -9,17 +9,19 @@ internal class JsonHelperTest {
     @Test
     fun `test json serialization`() {
         // given
-        val jwks = JWKS(
-            keys = listOf(
-                PublicKey(
-                    kty = "kty value",
-                    e = "kty value",
-                    use = "kty value",
-                    kid = "kty value",
-                    n = "kty value",
-                )
+        val jwks =
+            JWKS(
+                keys =
+                    listOf(
+                        PublicKey(
+                            kty = "kty value",
+                            e = "kty value",
+                            use = "kty value",
+                            kid = "kty value",
+                            n = "kty value",
+                        ),
+                    ),
             )
-        )
         // when
         val json = JsonHelper.toJson(jwks)
         val result = JsonHelper.fromJson(json, JWKS::class)

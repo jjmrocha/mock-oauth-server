@@ -15,9 +15,10 @@ internal class JWKSHandlerTest {
 
     @BeforeEach
     fun init() {
-        http = HttpServer().apply {
-            start()
-        }
+        http =
+            HttpServer().apply {
+                start()
+            }
     }
 
     @AfterEach
@@ -28,17 +29,19 @@ internal class JWKSHandlerTest {
     @Test
     fun `test JWKS handler`() {
         // given
-        val jwks = JWKS(
-            keys = listOf(
-                PublicKey(
-                    kty = "kty value",
-                    e = "kty value",
-                    use = "kty value",
-                    kid = "kty value",
-                    n = "kty value",
-                )
+        val jwks =
+            JWKS(
+                keys =
+                    listOf(
+                        PublicKey(
+                            kty = "kty value",
+                            e = "kty value",
+                            use = "kty value",
+                            kid = "kty value",
+                            n = "kty value",
+                        ),
+                    ),
             )
-        )
         val handler = JWKSHandler(jwks)
         http!!.addHandler("/keys", handler)
         // when

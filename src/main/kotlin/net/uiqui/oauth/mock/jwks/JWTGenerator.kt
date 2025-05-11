@@ -16,34 +16,40 @@ import java.util.UUID
 
 private const val JWT_TTL = 30 * 60000
 
-class JWTGenerator {
-    private val rsaKey = RSAKeyGenerator(2048)
-        .keyUse(KeyUse.SIGNATURE)
-        .keyID(UUID.randomUUID().toString())
-        .generate()
+internal class JWTGenerator {
+    private val rsaKey =
+        RSAKeyGenerator(2048)
+            .keyUse(KeyUse.SIGNATURE)
+            .keyID(UUID.randomUUID().toString())
+            .generate()
     private val jwtVerifier = RSASSAVerifier(rsaKey.toRSAPublicKey())
 
     fun getJWKS(): JWKS {
         val publicKey = rsaKey.toPublicJWK().toJSONObject()
         return JWKS(
-            keys = listOf(
-                PublicKey(
-                    kty = publicKey["kty"].toString(),
-                    e = publicKey["e"].toString(),
-                    use = publicKey["use"].toString(),
-                    kid = publicKey["kid"].toString(),
-                    n = publicKey["n"].toString(),
-                )
-            )
+            keys =
+                listOf(
+                    PublicKey(
+                        kty = publicKey["kty"].toString(),
+                        e = publicKey["e"].toString(),
+                        use = publicKey["use"].toString(),
+                        kid = publicKey["kid"].toString(),
+                        n = publicKey["n"].toString(),
+                    ),
+                ),
         )
     }
 
-    fun generate(jwkUri: URI, claims: Map<String, Any>): String {
-        val jwsHeader = JWSHeader.Builder(JWSAlgorithm.RS256)
-            .keyID(rsaKey.keyID)
-            .type(JOSEObjectType.JWT)
-            .jwkURL(jwkUri)
-            .build()
+    fun generate(
+        jwkUri: URI,
+        claims: Map<String, Any>,
+    ): String {
+        val jwsHeader =
+            JWSHeader.Builder(JWSAlgorithm.RS256)
+                .keyID(rsaKey.keyID)
+                .type(JOSEObjectType.JWT)
+                .jwkURL(jwkUri)
+                .build()
         val jwtPayload = toJWTClaimsSet(claims)
         val signedJWT = signJWT(jwsHeader, jwtPayload)
         return signedJWT.serialize()
@@ -58,16 +64,20 @@ class JWTGenerator {
     private fun toJWTClaimsSet(claims: Map<String, Any>): JWTClaimsSet {
         val now = Date()
 
-        val claimBuilder = JWTClaimsSet.Builder()
-            .notBeforeTime(now)
-            .expirationTime(Date(now.time + JWT_TTL))
+        val claimBuilder =
+            JWTClaimsSet.Builder()
+                .notBeforeTime(now)
+                .expirationTime(Date(now.time + JWT_TTL))
 
         claims.forEach { (claimName, value) -> claimBuilder.claim(claimName, value) }
 
         return claimBuilder.build()
     }
 
-    private fun signJWT(jwsHeader: JWSHeader, jwtPayload: JWTClaimsSet): SignedJWT {
+    private fun signJWT(
+        jwsHeader: JWSHeader,
+        jwtPayload: JWTClaimsSet,
+    ): SignedJWT {
         val signedJWT = SignedJWT(jwsHeader, jwtPayload)
         val signer = RSASSASigner(rsaKey)
         signedJWT.sign(signer)

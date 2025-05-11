@@ -12,11 +12,12 @@ object HttpTestClient {
     private val httpClient = HttpClient.newHttpClient()
 
     fun get(endpoint: URI): HttpResponse<String> {
-        val request = HttpRequest.newBuilder()
-            .uri(endpoint)
-            .header("Accept", "application/json")
-            .GET()
-            .build()
+        val request =
+            HttpRequest.newBuilder()
+                .uri(endpoint)
+                .header("Accept", "application/json")
+                .GET()
+                .build()
         return httpClient.send(request, BodyHandlers.ofString())
     }
 }

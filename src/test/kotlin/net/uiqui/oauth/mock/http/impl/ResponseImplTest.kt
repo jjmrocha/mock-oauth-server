@@ -21,7 +21,7 @@ internal class ResponseImplTest {
             |Connection: Close
             |
             |
-            """.trimMargin().replace("\n", "\r\n")
+            """.trimMargin().replace("\n", "\r\n"),
         )
     }
 
@@ -45,7 +45,7 @@ internal class ResponseImplTest {
             |Connection: Close
             |
             |{ "key" : "value" }
-            """.trimMargin().replace("\n", "\r\n")
+            """.trimMargin().replace("\n", "\r\n"),
         )
     }
 }

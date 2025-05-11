@@ -5,7 +5,7 @@ import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-class RequestImpl : Request {
+internal class RequestImpl : Request {
     private var version: String? = null
     private var method: String? = null
     private var uri: String? = null
@@ -60,14 +60,20 @@ class RequestImpl : Request {
                 }
             }
 
-        private fun decodeRequestLine(reader: BufferedReader, request: RequestImpl) {
+        private fun decodeRequestLine(
+            reader: BufferedReader,
+            request: RequestImpl,
+        ) {
             val parts = reader.readLine().split(" ")
             request.method = parts[0]
             request.uri = parts[1]
             request.version = parts[2]
         }
 
-        private fun decodeRequestHeader(reader: BufferedReader, request: RequestImpl) {
+        private fun decodeRequestHeader(
+            reader: BufferedReader,
+            request: RequestImpl,
+        ) {
             while (true) {
                 val line = reader.readLine()
                 if (line.isNullOrBlank()) break
@@ -77,7 +83,10 @@ class RequestImpl : Request {
             }
         }
 
-        private fun decodeRequestBody(reader: BufferedReader, request: RequestImpl) {
+        private fun decodeRequestBody(
+            reader: BufferedReader,
+            request: RequestImpl,
+        ) {
             val contentLen = request.headers.getOrDefault("Content-Length", "0").toInt()
 
             if (contentLen > 0) {

@@ -37,11 +37,12 @@ internal class HttpServerTest {
     @Test
     fun `test getPaths`() {
         // given
-        val classUnderTest = HttpServer().apply {
-            addHandler("/test200", TestRequestHandler(200, "OK"))
-            addHandler("/other/test404", TestRequestHandler(404, "Not Found"))
-            start()
-        }
+        val classUnderTest =
+            HttpServer().apply {
+                addHandler("/test200", TestRequestHandler(200, "OK"))
+                addHandler("/other/test404", TestRequestHandler(404, "Not Found"))
+                start()
+            }
         // when
         val result = classUnderTest.getPaths()
         // then
@@ -52,9 +53,10 @@ internal class HttpServerTest {
     @Test
     fun `test missing handler`() {
         // given
-        val classUnderTest = HttpServer().apply {
-            start()
-        }
+        val classUnderTest =
+            HttpServer().apply {
+                start()
+            }
         // when
         val result = HttpTestClient.get(URI("${classUnderTest.getHost()}/missing"))
         // then
@@ -65,11 +67,12 @@ internal class HttpServerTest {
     @Test
     fun `test execute handler`() {
         // given
-        val classUnderTest = HttpServer().apply {
-            addHandler("/test200", TestRequestHandler(200, "Ok"))
-            addHandler("/other/test404", TestRequestHandler(404, "Not Found"))
-            start()
-        }
+        val classUnderTest =
+            HttpServer().apply {
+                addHandler("/test200", TestRequestHandler(200, "Ok"))
+                addHandler("/other/test404", TestRequestHandler(404, "Not Found"))
+                start()
+            }
         // when
         val result = HttpTestClient.get(URI("${classUnderTest.getHost()}/other/test404"))
         // then
@@ -78,8 +81,11 @@ internal class HttpServerTest {
     }
 }
 
-class TestRequestHandler(private val status: Int, private val statusMessage: String) : RequestHandler {
-    override fun handle(request: Request, response: Response) {
+internal class TestRequestHandler(private val status: Int, private val statusMessage: String) : RequestHandler {
+    override fun handle(
+        request: Request,
+        response: Response,
+    ) {
         response.setResponseCode(status, statusMessage)
     }
 }

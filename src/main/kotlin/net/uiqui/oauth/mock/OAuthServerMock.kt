@@ -15,9 +15,10 @@ private const val JWKS_ENDPOINT = "/.well-known/jwks.json"
  */
 class OAuthServerMock {
     private val jwtGenerator = JWTGenerator()
-    private val httpServer = HttpServer().apply {
-        addHandler(JWKS_ENDPOINT, JWKSHandler(jwtGenerator.getJWKS()))
-    }
+    private val httpServer =
+        HttpServer().apply {
+            addHandler(JWKS_ENDPOINT, JWKSHandler(jwtGenerator.getJWKS()))
+        }
 
     /**
      * Generate a signed JWT with the supplied claims.
