@@ -15,10 +15,7 @@ internal class JWKSHandlerTest {
 
     @BeforeEach
     fun init() {
-        http =
-            HttpServer().apply {
-                start()
-            }
+        http = HttpServer()
     }
 
     @AfterEach
@@ -44,11 +41,12 @@ internal class JWKSHandlerTest {
             )
         val handler = JWKSHandler(jwks)
         http!!.addHandler("/keys", handler)
+        http!!.start()
         // when
         val response = HttpTestClient.get(URI("${http!!.getHost()}/keys"))
         // then
         assertThat(response.statusCode()).isEqualTo(200)
-        assertThat(response.contentType()).isEqualTo("application/json;charset=utf-8")
+        assertThat(response.contentType()).isEqualTo("application/json")
         assertThat(response.fromJson(JWKS::class)).isEqualTo(jwks)
     }
 }

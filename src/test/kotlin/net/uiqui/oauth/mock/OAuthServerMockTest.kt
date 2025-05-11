@@ -79,7 +79,7 @@ internal class OAuthServerMockTest {
         val response = HttpTestClient.get(classUnderTest.getJwksUri())
         // then
         assertThat(response.statusCode()).isEqualTo(200)
-        assertThat(response.contentType()).isEqualTo("application/json;charset=utf-8")
+        assertThat(response.contentType()).isEqualTo("application/json")
         // check jwks
         assertValidJWKS(response)
         // clean up
@@ -99,7 +99,7 @@ internal class OAuthServerMockTest {
         val response = HttpTestClient.get(classUnderTest.getJwksUri())
         // then
         assertThat(response.statusCode()).isEqualTo(200)
-        assertThat(response.contentType()).isEqualTo("application/json;charset=utf-8")
+        assertThat(response.contentType()).isEqualTo("application/json")
         // check jwks
         assertValidJWKS(response)
         // clean up

@@ -1,5 +1,8 @@
 package net.uiqui.oauth.mock.http
 
+import net.uiqui.embedhttp.api.HttpRequest
+import net.uiqui.embedhttp.api.HttpRequestHandler
+import net.uiqui.embedhttp.api.HttpResponse
 import net.uiqui.oauth.mock.HttpTestClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -81,11 +84,10 @@ internal class HttpServerTest {
     }
 }
 
-internal class TestRequestHandler(private val status: Int, private val statusMessage: String) : RequestHandler {
+internal class TestRequestHandler(private val status: Int, private val statusMessage: String) : HttpRequestHandler {
     override fun handle(
-        request: Request,
-        response: Response,
-    ) {
-        response.setResponseCode(status, statusMessage)
+        request: HttpRequest,
+    ): HttpResponse {
+        return HttpResponse.withStatus(status, statusMessage)
     }
 }

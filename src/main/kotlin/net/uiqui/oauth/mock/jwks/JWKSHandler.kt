@@ -1,17 +1,14 @@
 package net.uiqui.oauth.mock.jwks
 
-import net.uiqui.oauth.mock.http.Request
-import net.uiqui.oauth.mock.http.RequestHandler
-import net.uiqui.oauth.mock.http.Response
+import net.uiqui.embedhttp.api.ContentType
+import net.uiqui.embedhttp.api.HttpRequest
+import net.uiqui.embedhttp.api.HttpRequestHandler
+import net.uiqui.embedhttp.api.HttpResponse
 import net.uiqui.oauth.mock.tools.JsonHelper
 
-internal class JWKSHandler(private val jwks: JWKS) : RequestHandler {
-    override fun handle(
-        request: Request,
-        response: Response,
-    ) {
-        response.setResponseCode(200, "OK")
-        response.addHeader("Content-Type", "application/json;charset=utf-8")
-        response.setBody(JsonHelper.toJson(jwks))
+internal class JWKSHandler(private val jwks: JWKS) : HttpRequestHandler {
+    override fun handle(request: HttpRequest): HttpResponse {
+        return HttpResponse.ok()
+            .setBody(ContentType.APPLICATION_JSON, JsonHelper.toJson(jwks))
     }
 }
