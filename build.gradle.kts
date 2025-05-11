@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
@@ -6,7 +7,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
 
 plugins {
     // Structure
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "1.9.25"
     `java-library`
     // Quality
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.17.0"
@@ -69,4 +70,9 @@ tasks.test {
 
 kotlin {
     jvmToolchain(21)
+}
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
 }

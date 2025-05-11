@@ -10,14 +10,14 @@ Features
 
 Requirements
 ------------
-- Java >= 11
+- Java >= 21
 
 Quick Start
 -----------
 
 Gradle
 ```kotlin
-testImplementation("net.uiqui:mock-oauth-server:1.1.1")
+testImplementation("net.uiqui:mock-oauth-server:1.1.2")
 ```
 
 Maven
@@ -25,7 +25,7 @@ Maven
 <dependency>
   <groupId>net.uiqui</groupId>
   <artifactId>mock-oauth-server</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -40,22 +40,14 @@ private val mockedOauthServer = OAuthServerMock()
 
 2) Start the server
 ```kotlin
-@BeforeAll
-@JvmStatic
-fun init() {
-    mockedOauthServer.start()
-}
-```
-
-3) Tell your app from where it can download the signing keys
-```kotlin
 @BeforeEach
 fun setUp() {
+    mockedOauthServer.start()
     every { mockedAuthenticationConfig.jwksEndpoint } returns mockedOauthServer.getJwksUri()
 }
 ```
 
-4) Generate a JWT with the required claims
+3) Generate a JWT with the required claims
 ```kotlin
 val requiredClaims = mapOf(
     "iss" to "OAuth-Server-Mock",
@@ -65,7 +57,7 @@ val requiredClaims = mapOf(
 val jwtToken = mockedOauthServer.generateJWT(requiredClaims)
 ```
 
-5) Use the JWT on your request
+4) Use the JWT on your request
 ```kotlin
 mockMvc.perform(
     get("/your/endpoint")
@@ -73,10 +65,9 @@ mockMvc.perform(
 )
 ```
 
-6) Shutdown the server
+5) Shutdown the server
 ```kotlin
-@AfterAll
-@JvmStatic
+@AfterEach
 fun cleanUp() {
     mockedOauthServer.shutdown()
 }
