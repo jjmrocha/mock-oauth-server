@@ -15,11 +15,13 @@ internal class HttpServer {
             router.get(path, handler)
         }
 
-        serverInstance.start(router)
+        val result = serverInstance.start(router)
+        check(result) { "Failed to start server" }
     }
 
     fun stop() {
-        serverInstance.stop()
+        val result = serverInstance.stop()
+        check(result) { "Failed to stop server" }
     }
 
     fun addHandler(

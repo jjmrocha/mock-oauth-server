@@ -85,9 +85,7 @@ internal class HttpServerTest {
 }
 
 internal class TestRequestHandler(private val status: Int, private val statusMessage: String) : HttpRequestHandler {
-    override fun handle(
-        request: HttpRequest,
-    ): HttpResponse {
+    override fun handle(request: HttpRequest): HttpResponse {
         return HttpResponse.withStatus(status, statusMessage)
     }
 }
