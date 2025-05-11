@@ -18,21 +18,26 @@ class SecurityConfig(
     @Bean
     fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain? {
         // Disable sessions
-        httpSecurity.sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        httpSecurity.sessionManagement { sessionManagement ->
+            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        }
         // Protect endpoints
-        httpSecurity.authorizeRequests()
-            .anyRequest().authenticated()
+        httpSecurity.authorizeHttpRequests { authorizeRequests ->
+            authorizeRequests.anyRequest().authenticated()
+        }
         // Disable Cross site request forgery
-        httpSecurity.csrf().disable()
+        httpSecurity.csrf { csrf ->
+            csrf.disable()
+        }
         // JWT authentication
         httpSecurity.addFilterBefore(
             JwtAuthenticationFilter(authentication),
             BasicAuthenticationFilter::class.java
         )
         // Error handling
-        httpSecurity.exceptionHandling()
-            .authenticationEntryPoint(HttpStatusEntryPoint(UNAUTHORIZED))
+        httpSecurity.exceptionHandling { exceptionHandling ->
+            exceptionHandling.authenticationEntryPoint(HttpStatusEntryPoint(UNAUTHORIZED))
+        }
 
         return httpSecurity.build()
     }
