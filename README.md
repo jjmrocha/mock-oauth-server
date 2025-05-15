@@ -17,7 +17,7 @@ Quick Start
 
 Gradle
 ```kotlin
-testImplementation("net.uiqui:mock-oauth-server:1.1.2")
+testImplementation("net.uiqui:mock-oauth-server:1.1.3")
 ```
 
 Maven
@@ -25,7 +25,7 @@ Maven
 <dependency>
   <groupId>net.uiqui</groupId>
   <artifactId>mock-oauth-server</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3</version>
   <scope>test</scope>
 </dependency>
 ```

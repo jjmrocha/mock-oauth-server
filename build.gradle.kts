@@ -27,11 +27,12 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     // http
-    implementation("net.uiqui:embedhttp:0.5.3")
+    implementation("net.uiqui:embedhttp:0.5.4")
     // JWT
     implementation("com.nimbusds:nimbus-jose-jwt:10.3")
     // Json

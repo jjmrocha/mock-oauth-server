@@ -25,7 +25,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.bitbucket.b_c:jose4j:0.9.6")
 
-    testImplementation("net.uiqui:mock-oauth-server:1.1.2")
+    testImplementation("net.uiqui:mock-oauth-server:1.1.3")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

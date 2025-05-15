@@ -2,6 +2,7 @@ package net.uiqui.oauth.mock.http
 
 import net.uiqui.embedhttp.HttpServer
 import net.uiqui.embedhttp.Router
+import net.uiqui.embedhttp.api.HttpMethod
 import net.uiqui.embedhttp.api.HttpRequestHandler
 
 internal class HttpServer {
@@ -12,7 +13,7 @@ internal class HttpServer {
         val router = Router.newRouter()
 
         handlers.forEach { (path, handler) ->
-            router.get(path, handler)
+            router.withRoute(HttpMethod.GET, path, handler)
         }
 
         val result = serverInstance.start(router)
