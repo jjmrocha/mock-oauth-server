@@ -8,18 +8,18 @@ Features
 - Method for signed JWT creation, with user defined claims
 - Http endpoint for retrieval of public keys
 
-On a high level, the JWT Bearer Flow of the OAuth2 server mock is as follows:
+On a high level, the OAuth2's Client Credentials flow where the access token is a JWT, is the following:
 ```mermaid
 sequenceDiagram
     participant Client
     participant Authorization Server
     participant Your Application
     activate Client
-    Client->>Authorization Server: Request JWT with claims
+    Client->>Authorization Server: Request Token
     activate Authorization Server
     Authorization Server->>Client: Return JWT
     deactivate Authorization Server
-    Client->>Your Application: Use JWT in request
+    Client->>Your Application: Use JWT in the Authorization header
     activate Your Application
     Your Application->>Authorization Server: Download public keys
     activate Authorization Server
