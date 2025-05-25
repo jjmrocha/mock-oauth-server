@@ -8,6 +8,37 @@ Features
 - Method for signed JWT creation, with user defined claims
 - Http endpoint for retrieval of public keys
 
+On a high level, the JWT Bearer Flow of the OAuth2 server mock is as follows:
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Authorization Server
+    participant Your Application
+    activate Client
+    Client->>Authorization Server: Request JWT with claims
+    activate Authorization Server
+    Authorization Server->>Client: Return JWT
+    deactivate Authorization Server
+    Client->>Your Application: Use JWT in request
+    activate Your Application
+    Your Application->>Authorization Server: Download public keys
+    activate Authorization Server
+    Authorization Server->>Your Application: Return public keys
+    deactivate Authorization Server
+    Your Application->>Your Application: Validate JWT with public keys
+    alt If clains are valid 
+        Your Application->>Your Application: Process request
+        Your Application->>Client: Respond to request
+    else If claims or the JWT are invalid
+        Your Application->>Client: Reject request
+    end
+    deactivate Your Application
+    deactivate Client
+```
+
+The purpose of this library is to mock an Authorization Server for unit testing purposes, allowing you to generate JWTs with specific claims and validate them against a mocked server.
+
+
 Requirements
 ------------
 - Java >= 21
