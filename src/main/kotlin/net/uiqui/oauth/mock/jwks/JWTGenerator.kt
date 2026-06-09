@@ -45,7 +45,8 @@ internal class JWTGenerator {
         claims: Map<String, Any>,
     ): String {
         val jwsHeader =
-            JWSHeader.Builder(JWSAlgorithm.RS256)
+            JWSHeader
+                .Builder(JWSAlgorithm.RS256)
                 .keyID(rsaKey.keyID)
                 .type(JOSEObjectType.JWT)
                 .jwkURL(jwkUri)
@@ -65,7 +66,8 @@ internal class JWTGenerator {
         val now = Date()
 
         val claimBuilder =
-            JWTClaimsSet.Builder()
+            JWTClaimsSet
+                .Builder()
                 .notBeforeTime(now)
                 .expirationTime(Date(now.time + JWT_TTL))
 

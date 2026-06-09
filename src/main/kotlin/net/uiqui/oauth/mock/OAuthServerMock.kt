@@ -28,9 +28,7 @@ class OAuthServerMock {
      * @return signed JWT
      * @exception IllegalStateException if called without starting the mocked oauth server
      */
-    fun generateJWT(claims: Map<String, Any>): String {
-        return jwtGenerator.generate(getJwksUri(), claims)
-    }
+    fun generateJWT(claims: Map<String, Any>): String = jwtGenerator.generate(getJwksUri(), claims)
 
     /**
      * Returns the URI for JWKS.
@@ -38,9 +36,7 @@ class OAuthServerMock {
      * @return URL for JWKS
      * @exception IllegalStateException if called without starting the mocked oauth server
      */
-    fun getJwksUri(): URI {
-        return URI("${httpServer.getHost()}$JWKS_ENDPOINT")
-    }
+    fun getJwksUri(): URI = URI("${httpServer.getHost()}$JWKS_ENDPOINT")
 
     /**
      * Starts the mocked oauth server.

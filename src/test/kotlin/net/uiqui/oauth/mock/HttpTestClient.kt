@@ -13,7 +13,8 @@ object HttpTestClient {
 
     fun get(endpoint: URI): HttpResponse<String> {
         val request =
-            HttpRequest.newBuilder()
+            HttpRequest
+                .newBuilder()
                 .uri(endpoint)
                 .header("Accept", "application/json")
                 .GET()
@@ -22,10 +23,6 @@ object HttpTestClient {
     }
 }
 
-fun HttpResponse<*>.contentType(): String? {
-    return this.headers().firstValue("content-type").orElse(null)
-}
+fun HttpResponse<*>.contentType(): String? = this.headers().firstValue("content-type").orElse(null)
 
-fun <T : Any> HttpResponse<String>.fromJson(type: KClass<T>): T {
-    return JsonHelper.fromJson(this.body(), type)
-}
+fun <T : Any> HttpResponse<String>.fromJson(type: KClass<T>): T = JsonHelper.fromJson(this.body(), type)

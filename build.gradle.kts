@@ -7,13 +7,13 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
 
 plugins {
     // Structure
-    kotlin("jvm") version "1.9.25"
+    kotlin("jvm") version "2.4.0"
     `java-library`
     // Quality
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.17.0"
-    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.18.0"
+    id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
     // Publishing
-    id("org.jetbrains.dokka") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.2.0"
     id("com.vanniktech.maven.publish") version "0.31.0"
 }
 
@@ -32,11 +32,11 @@ repositories {
 
 dependencies {
     // http
-    implementation("net.uiqui:embedhttp:0.5.4")
+    implementation("net.uiqui:embedhttp:0.6.0")
     // JWT
     implementation("com.nimbusds:nimbus-jose-jwt:10.3")
     // Json
-    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("com.google.code.gson:gson:2.14.0")
     // testing
     testImplementation(kotlin("test"))
     testImplementation("org.assertj:assertj-core:3.27.3")
